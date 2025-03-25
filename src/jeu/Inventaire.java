@@ -76,10 +76,17 @@ public class Inventaire {
     public String afficherContenu() {
         StringBuilder contenu = new StringBuilder();
         for (Ingredient ingredient : ingredients) {
-            contenu.append(ingredient.getNom()).append(ingredient.estRecupere() ? " (Récupéré)" : " (Non récupéré)").append("\n");
+            contenu.append(ingredient.getNom())
+                    .append(ingredient.estRecupere() ? " (Récupéré)" : " (Non récupéré)") // Affiche si récupéré ou non
+                    .append("\n");
         }
         return contenu.toString();
     }
+
+    public List<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
 
     // Méthode pour vérifier si un ingrédient est dans l'inventaire
     public boolean contient(String nom) {
@@ -90,4 +97,22 @@ public class Inventaire {
         }
         return false;
     }
+    public void setObjets(List<String> nouveauxObjets) {
+        ingredients.clear();
+        for (String nom : nouveauxObjets) {
+            ingredients.add(new Ingredient(nom));
+        }
+    }
+
+    public List<String> getObjets() {
+        List<String> objetsRecuperes = new ArrayList<>();
+        for (Ingredient ingredient : ingredients) {
+            if (ingredient.estRecupere()) {
+                objetsRecuperes.add(ingredient.getNom());
+            }
+        }
+        return objetsRecuperes;
+    }
+
+
 }
