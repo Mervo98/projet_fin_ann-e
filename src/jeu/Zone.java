@@ -1,20 +1,20 @@
 package jeu;
+
 import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 public class Zone {
     private String description;
     private String nomImage;
-    private List<String> objets;
-    private HashMap<String, Zone> sorties;   // Pour gérer les sorties vers les autres zones
     private HashMap<String, Boolean> objetsDisponibles;  // Pour gérer les objets récupérables dans la zone
+    private HashMap<String, Zone> sorties;   // Pour gérer les sorties vers les autres zones
 
     public Zone(String description, String image) {
         this.description = description;
-        nomImage = image;
-        sorties = new HashMap<>();
-        objetsDisponibles = new HashMap<>();
+        this.nomImage = image;
+        this.sorties = new HashMap<>();
+        this.objetsDisponibles = new HashMap<>();
     }
 
     // Ajoute une sortie (direction, zone voisine)
@@ -29,20 +29,15 @@ public class Zone {
 
     // Vérifie si un objet est dans cette zone
     public boolean contientObjet(String objet) {
-        System.out.println("Vérification de l'objet : " + objet);
-        System.out.println("Objets disponibles dans la zone : " + objetsDisponibles.keySet());
-        System.out.println( nomImage);
-
         return objetsDisponibles.containsKey(objet);
     }
 
     public List<String> getObjets() {
-        return objetsDisponibles.keySet().stream()
-                .filter(objet -> !objetsDisponibles.get(objet)) // Ne retourner que les objets non récupérés
+        return objetsDisponibles.entrySet().stream()
+                .filter(entry -> !entry.getValue())  // Sélectionne les objets non récupérés
+                .map(entry -> entry.getKey())  // Récupère uniquement le nom de l'objet
                 .toList();
     }
-
-
 
     // Permet de récupérer un objet
     public void prendreObjet(String objet) {
@@ -86,4 +81,16 @@ public class Zone {
     public String toString() {
         return description;
     }
+    public static Zone obtenirZoneParNom(String nom) {
+        // Exemple de structure de données pour stocker les zones, à définir selon votre logique
+        Map<String, Zone> zones = new HashMap<>();
+        // Ajouter des zones à cette map (ou charger depuis une autre source)
+        return zones.get(nom);  // Retourner la zone correspondante à ce nom
+    }
+
+    public String getNom() {
+        return description;
+    }
+
+
 }

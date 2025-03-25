@@ -8,16 +8,28 @@ public class GUI implements ActionListener {
     private Jeu jeu;
     private JFrame fenetre;
     private JTextField entree;
+    private DemandeReponseGUI demandeReponseGUI;
     private JTextArea texte;
     private ImagePanel imagePanel;  // Panel personnalisé pour l'image de fond
     private JLabel personnage;      // Image du personnage
 
     // Variable pour stocker la réponse
-    private String reponse = "";
+    private String reponse;
 
     public GUI(Jeu j) {
         jeu = j;
         creerGUI();
+
+    }
+
+    public String demanderReponse(String question) {
+        // Afficher la question dans le texte
+        afficher(question);
+
+        // Utiliser la classe DemandeReponseGUI pour demander la réponse
+        reponse = demandeReponseGUI.demanderReponse(question);
+
+        return reponse;
     }
 
     private void creerGUI() {
@@ -33,8 +45,18 @@ public class GUI implements ActionListener {
         imagePanel.setPreferredSize(new Dimension(500, 500));
 
         // Charger les images
-        imagePanel.setImage("jeu/images/SalleAManger.jpg");
         imagePanel.setPersonnageImage("jeu/images/Boy.jpg");
+/*
+        imagePanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int x = e.getX();
+                int y = e.getY();
+                afficher("Position de la souris : (" + x + ", " + y + ")");
+            }
+        });
+
+*/
 
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(imagePanel, BorderLayout.NORTH);
@@ -45,8 +67,13 @@ public class GUI implements ActionListener {
         fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         entree.addActionListener(this);
         fenetre.pack();
+        fenetre.setResizable(false);
+
         fenetre.setVisible(true);
+
+        demandeReponseGUI = new DemandeReponseGUI();
         entree.requestFocus();
+
     }
 
     public void afficher(String message) {
@@ -84,6 +111,7 @@ public class GUI implements ActionListener {
         entree.setText("");
         jeu.traiterCommande(commandeLue);
     }
+
 
     /**
      * Demande une réponse à l'utilisateur et attend la saisie dans le champ de texte.
