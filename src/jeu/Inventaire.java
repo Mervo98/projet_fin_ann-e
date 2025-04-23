@@ -26,20 +26,6 @@ public class Inventaire {
         }
     }
 
-    // Méthode pour ajouter un ingrédient à l'inventaire
-    public void ajouterObjet(String nom) {
-        boolean trouve = false;
-        for (Ingredient ingredient : ingredients) {
-            if (ingredient.getNom().equals(nom) && !ingredient.estRecupere()) {
-                ingredient.recuperer();
-                trouve = true;
-                break;
-            }
-        }
-        if (!trouve) {
-            ingredients.add(new Ingredient(nom));  // Ajoute un nouvel ingrédient
-        }
-    }
 
     // Vérifie si l'inventaire a tous les ingrédients
     public boolean aTousLesIngredients() {
@@ -51,26 +37,6 @@ public class Inventaire {
         return true;
     }
 
-    // Vérifie que l'ordre des ingrédients est correct
-    public boolean aBonOrdreIngredients() {
-        String[] ordreCorrect = {
-                "Œuf de Serpentcendre",
-                "Feuilles de Mandragore",
-                "Chou mordeur de Chine",
-                "Champignon Bleu",
-                "Fleur de Brume"
-        };
-
-        List<String> ordreActuel = new ArrayList<>();
-        for (Ingredient ingredient : ingredients) {
-            if (ingredient.estRecupere()) {
-                ordreActuel.add(ingredient.getNom());
-            }
-        }
-
-        // Vérifie que l'ordre des ingrédients est correct
-        return ordreActuel.equals(List.of(ordreCorrect));
-    }
 
     // Méthode pour afficher l'inventaire
     public String afficherContenu() {
@@ -83,35 +49,16 @@ public class Inventaire {
         return contenu.toString();
     }
 
-    public List<Ingredient> getIngredients() {
-        return ingredients;
-    }
 
 
-    // Méthode pour vérifier si un ingrédient est dans l'inventaire
-    public boolean contient(String nom) {
+
+    public boolean contientIngredientRecupere(String nom) {
         for (Ingredient ingredient : ingredients) {
             if (ingredient.getNom().equals(nom) && ingredient.estRecupere()) {
                 return true;
             }
         }
         return false;
-    }
-    public void setObjets(List<String> nouveauxObjets) {
-        ingredients.clear();
-        for (String nom : nouveauxObjets) {
-            ingredients.add(new Ingredient(nom));
-        }
-    }
-
-    public List<String> getObjets() {
-        List<String> objetsRecuperes = new ArrayList<>();
-        for (Ingredient ingredient : ingredients) {
-            if (ingredient.estRecupere()) {
-                objetsRecuperes.add(ingredient.getNom());
-            }
-        }
-        return objetsRecuperes;
     }
 
 
